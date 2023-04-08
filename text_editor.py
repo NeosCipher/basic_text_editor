@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 import tkinter as tk
+from tkinter import ttk
 from custom_dialog import CustomFileDialog
 from tkinter import filedialog
 
@@ -70,7 +71,12 @@ class TextEditor:
 
         # Generatig the area for writing
         self.text = tk.Text(self.master_window)
-        self.text.pack(fill=tk.BOTH, expand=1)
+        self.text.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
+        
+        # Generating the scrollbar widget
+        self.scrollbar = tk.Scrollbar(self.master_window)
+        self.scrollbar.pack(fill=tk.Y, side=tk.TOP, expand=1)
+        self.text.configure(yscrollcommand=self.scrollbar.set)
 
     def run_window(self):
         self.master_window.mainloop()

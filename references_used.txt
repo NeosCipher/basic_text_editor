@@ -1,0 +1,5 @@
+Design of various window's components:
+1. Main Window - 
+2. File Browser Window -
+#. Scrollbar - https://docs.python.org/3/search.html?q=scrollbar
+#. 
