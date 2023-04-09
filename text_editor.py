@@ -74,9 +74,15 @@ class TextEditor:
         self.text.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
         
         # Generating the scrollbar widget
-        self.scrollbar = tk.Scrollbar(self.master_window)
+        self.scrollbar = tk.Scrollbar(self.master_window, orient=tk.VERTICAL)
         self.scrollbar.pack(fill=tk.Y, side=tk.TOP, expand=1)
+        # Resizing the Scrollbar according to the text widget content
         self.text.configure(yscrollcommand=self.scrollbar.set)
+        # Implementing the scrolling function of the Scrollbar function
+        for i in range(1):
+            self.text.insert(tk.END, "", str(i))
+
+        self.scrollbar.config(command=self.text.yview)
 
     def run_window(self):
         self.master_window.mainloop()
