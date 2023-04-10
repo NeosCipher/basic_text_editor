@@ -47,6 +47,15 @@ class TextEditor:
         # TODO: To do after completin the design of the interface
         return None
 
+    def copy(self):
+        self.text.event_generate("<<Copy>>")
+
+    def cut(self):
+        self.text.event_generate("<<Cut>>")
+
+    def paste(self):
+        self.text.event_generate("<<Paste>>")
+
     def generate_widgets(self):
         # Generating the menu and each of its windows
         menubar = tk.Menu(self.master_window)
@@ -84,5 +93,19 @@ class TextEditor:
 
         self.scrollbar.config(command=self.text.yview)
 
+        # Binding the copy, cut, paste to events
+        self.right_click_popup = tk.Menu(self.text, tearoff=0) 
+        self.right_click_popup.add_command(label="Copy", compound=tk.LEFT, command=self.copy)
+        self.right_click_popup.add_command(label="Cut", compound=tk.LEFT, command=self.cut)
+        self.right_click_popup.add_command(label="Paste", compound=tk.LEFT, command=self.paste)
+    
+        # Binding the command to the right click event
+        self.text.bind("<Button-3>", self.right_click_menu)
+
+
+    def right_click_menu(self, event):
+        self.right_click_popup.tk_popup(event.x_root, event.y_root, 0)        
+
+    
     def run_window(self):
         self.master_window.mainloop()
