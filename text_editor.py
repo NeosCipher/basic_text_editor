@@ -114,7 +114,5 @@ class TextEditor:
         # Implementing various tags for text manipulations
         # tag_try = self.text.bind()
 
-
-
     def run_window(self):
         self.master_window.mainloop()
