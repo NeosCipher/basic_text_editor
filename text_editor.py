@@ -9,7 +9,7 @@ class TextEditor:
     def __init__(self, master_window):
         self.master_window = master_window
         self.master_window.title("Text Editor")
-        self.file_path = None 
+        self.file_path = None
         self.generate_widgets()
 
     def load_file(self):
@@ -47,6 +47,7 @@ class TextEditor:
         # TODO: To do after completin the design of the interface
         return None
 
+    # Functions for Copy, Cut, Paste
     def copy(self):
         self.text.event_generate("<<Copy>>")
 
@@ -55,6 +56,13 @@ class TextEditor:
 
     def paste(self):
         self.text.event_generate("<<Paste>>")
+
+    def select_all_func(self):
+        self.text.tag_add('sel', '1.0', 'end')
+
+    # Right click options: Copy, Cut, Paste
+    def right_click_menu(self, event):
+        self.right_click_popup.tk_popup(event.x_root, event.y_root, 0)
 
     def generate_widgets(self):
         # Generating the menu and each of its windows
@@ -69,7 +77,7 @@ class TextEditor:
         file_menu.add_command(label="Exit", command=self.master_window.quit)
         menubar.add_cascade(label="File", menu=file_menu)
         self.master_window.config(menu=menubar)
-    
+
         # Settings submenu
         settings = tk.Menu(self.master_window)
         settings = tk.Menu(menubar, tearoff=0)
@@ -81,7 +89,7 @@ class TextEditor:
         # Generatig the area for writing
         self.text = tk.Text(self.master_window)
         self.text.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
-        
+
         # Generating the scrollbar widget
         self.scrollbar = tk.Scrollbar(self.master_window, orient=tk.VERTICAL)
         self.scrollbar.pack(fill=tk.Y, side=tk.TOP, expand=1)
@@ -94,18 +102,19 @@ class TextEditor:
         self.scrollbar.config(command=self.text.yview)
 
         # Binding the copy, cut, paste to events
-        self.right_click_popup = tk.Menu(self.text, tearoff=0) 
-        self.right_click_popup.add_command(label="Copy", compound=tk.LEFT, command=self.copy)
-        self.right_click_popup.add_command(label="Cut", compound=tk.LEFT, command=self.cut)
-        self.right_click_popup.add_command(label="Paste", compound=tk.LEFT, command=self.paste)
-    
+        self.right_click_popup = tk.Menu(self.text, tearoff=0)
+        copy = self.right_click_popup.add_command(label="Copy", compound=tk.LEFT, command=self.copy)
+        cut = self.right_click_popup.add_command(label="Cut", compound=tk.LEFT, command=self.cut)
+        paste = self.right_click_popup.add_command(label="Paste", compound=tk.LEFT, command=self.paste)
+        select_all = self.right_click_popup.add_command(label="Select All", compound=tk.LEFT, command=self.select_all_func)
+
         # Binding the command to the right click event
         self.text.bind("<Button-3>", self.right_click_menu)
 
+        # Implementing various tags for text manipulations
+        # tag_try = self.text.bind()
 
-    def right_click_menu(self, event):
-        self.right_click_popup.tk_popup(event.x_root, event.y_root, 0)        
 
-    
+
     def run_window(self):
         self.master_window.mainloop()
